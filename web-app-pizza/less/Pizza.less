@@ -1,0 +1,28 @@
+﻿@paddingStatic: 70px;
+@base-color: #e94a4a;
+
+body {
+    padding-bottom: @paddingStatic;
+    padding-top: @paddingStatic;
+}
+
+.loop-color(4);
+
+.loop-color(@cpt, @i: 1) when (@i =< @cpt) {
+    .pizza-background-@{i} {
+        background-color: darken(@base-color, (@i * 10%));
+    }
+
+    .loop-color(@cpt, (@i + 1));
+}
+
+
+.thumbnail img {
+    height: 140px;
+    min-height: 320px;
+}
+
+
+table img.img-thumbnail {
+    height: 100px;
+}
