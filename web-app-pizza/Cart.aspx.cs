@@ -24,20 +24,30 @@ namespace web_app_pizza
                 PizzaCartRepeater.DataSource = PizzaCartRepository.Read();
                 PizzaCartRepeater.DataBind();
             }
+            
+        }
 
+        protected override void OnLoadComplete(EventArgs e)
+        {
+
+            TotalPrice.Text = String.Format("{0:c2}",((PizzaCartRepository)PizzaCartRepository).ComputePrice());
         }
 
         protected void PizzaCartRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             Button commandButton = ((Button)e.CommandSource);
+            var id = Convert.ToInt32(e.CommandArgument);
 
-            switch(commandButton.ID)
+            switch (commandButton.ID)
             {
                 case "ButtonPlus":
-                    IncrementQuantity();
+                    ((PizzaCartRepository)PizzaCartRepository).UpQuantity(id);
                     break;
                 case "ButtonMinus":
-                    DecrementQuantity();
+                    ((PizzaCartRepository)PizzaCartRepository).DownQuantity(id);
+                    break;
+                case "ButtonRemove":
+                    ((PizzaCartRepository)PizzaCartRepository).RemovePizzaCart(id);
                     break;
             }
 
@@ -46,16 +56,9 @@ namespace web_app_pizza
 
         }
 
-
-        public void IncrementQuantity()
+        protected void PizzaCartRepeater_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            Debug.WriteLine("Increment");
-        }
-        public void DecrementQuantity()
-        {
-            Debug.WriteLine("Decrement");
 
         }
-
     }
 }

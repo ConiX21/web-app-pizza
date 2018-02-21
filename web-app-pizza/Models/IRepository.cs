@@ -10,5 +10,6 @@ namespace web_app_pizza.Models
         List<T> Read();
         List<T> Read(Func<T, bool> predicate);
         T Read(int id);
+        T Add(T pizza);
     }
 }

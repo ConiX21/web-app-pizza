@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="web_app_pizza.index" MasterPageFile="~/PizzaTemplate.Master" %>
+﻿<%@ Page Language="C#" Trace="true" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="web_app_pizza.index" MasterPageFile="~/PizzaTemplate.Master" %>
 
 <asp:Content ContentPlaceHolderID="ContentPlaceHolder" runat="server">
     <h1>Pizza Land</h1>

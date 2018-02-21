@@ -21,3 +21,10 @@ body {
 table img.img-thumbnail {
   height: 100px;
 }
+.price {
+  font-size: 1.5em;
+}
+.price:before {
+  font-style: italic;
+  content: "Prix total : ";
+}

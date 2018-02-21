@@ -39,9 +39,8 @@ namespace web_app_pizza
             var idPizza = Convert.ToInt32(e.CommandArgument);
             var Pizza = PizzaRepository.Read(idPizza);
 
-            ((PizzaCartRepository)PizzaCartRepository).AddPizzaSessionCart(new PizzaCart(){ Pizza = Pizza});
+            ((PizzaCartRepository)PizzaCartRepository).Add(new PizzaCart(){ Pizza = Pizza});
 
-            //Session["idPizza"] = JsonConvert.SerializeObject(Pizza);
         }
 
     }

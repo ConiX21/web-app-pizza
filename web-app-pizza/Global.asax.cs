@@ -14,6 +14,7 @@ namespace web_app_pizza
 
         protected void Application_Start(object sender, EventArgs e)
         {
+            
 
             PizzaModule p = new PizzaModule();
             Global.CollectionPizzas = new List<Pizza>()
@@ -46,7 +47,7 @@ namespace web_app_pizza
 
         protected void Session_Start(object sender, EventArgs e)
         {
-
+            Session["culture"] = "fr-FR";
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)

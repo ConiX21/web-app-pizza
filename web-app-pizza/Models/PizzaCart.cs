@@ -18,5 +18,6 @@ namespace web_app_pizza.Models
         {
             return Pizza.Price * Quantity;
         }
+
     }
 }

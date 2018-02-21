@@ -10,24 +10,33 @@
 namespace web_app_pizza {
     
     
-    public partial class Cart {
+    public partial class WebForm1 {
         
         /// <summary>
-        /// Contrôle PizzaCartRepeater.
+        /// Contrôle form1.
         /// </summary>
         /// <remarks>
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater PizzaCartRepeater;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// Contrôle TotalPrice.
+        /// Contrôle ObjectDataSourceRepositoryPizza.
         /// </summary>
         /// <remarks>
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label TotalPrice;
+        protected global::System.Web.UI.WebControls.ObjectDataSource ObjectDataSourceRepositoryPizza;
+        
+        /// <summary>
+        /// Contrôle FormView1.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FormView FormView1;
     }
 }

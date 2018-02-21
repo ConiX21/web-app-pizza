@@ -8,23 +8,21 @@ using web_app_pizza.Models;
 
 namespace web_app_pizza
 {
-    public partial class AddPizza : System.Web.UI.Page
+    public partial class Detail : System.Web.UI.Page
     {
-        Pizza Pizza { get; set; }
+        public Pizza Pizza { get; set; }
         public IRepository<Pizza> PizzaRepository { get; set; }
-        public AddPizza()
+
+
+        public Detail()
         {
-            Pizza = new Pizza();
             PizzaRepository = new PizzaRepository();
         }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            FormView1.DefaultMode = FormViewMode.Insert;
-            //if (IsPostBack && IsValid)
-            //{
-            //    PizzaRepository.Add(Pizza);
-            //}
+            var id = Convert.ToInt32(Request.QueryString["id"]);
+            Pizza = PizzaRepository.Read(id);
         }
     }
 }

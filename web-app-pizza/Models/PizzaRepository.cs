@@ -13,6 +13,13 @@ namespace web_app_pizza.Models
 
         }
 
+        public Pizza Add(Pizza pizza)
+        {
+            Global.CollectionPizzas.Add(pizza);
+
+            return pizza;
+        }
+
         public List<Pizza> Read()
         {
             return Global.CollectionPizzas;

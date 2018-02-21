@@ -9,7 +9,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <asp:Repeater runat="server" ID="PizzaCartRepeater" OnItemCommand="PizzaCartRepeater_ItemCommand" >
+            <asp:Repeater runat="server" ID="PizzaCartRepeater" OnItemCommand="PizzaCartRepeater_ItemCommand" OnItemDataBound="PizzaCartRepeater_ItemDataBound">
                 <HeaderTemplate>
                     <table class="table table-striped">
                         <thead>
@@ -38,21 +38,44 @@
                         </td>
                         <td>
                             <div class="btn-group" role="group" aria-label="...">
-                                <asp:Button ID="ButtonPlus" runat="server" Text="+" CssClass="btn btn-success" />
-                                <asp:Button ID="ButtonMinus" runat="server" Text="--" CssClass="btn btn-success" />
+                                <asp:Button ID="ButtonPlus" runat="server" Text="+" CssClass="btn btn-success" CommandArgument='<%# Eval("Pizza.IDpizza") %>' />
+                                <asp:Button ID="ButtonMinus" runat="server" Text="--" CssClass="btn btn-success" CommandArgument='<%# Eval("Pizza.IDpizza") %>' />
                             </div>
-                            
-                            <asp:Button ID="ButtonRemove" runat="server" Text="Remove" CssClass="btn btn-danger" />
+                            <div class="btn-group" role="group" aria-label="...">
+                                <button type="button" data-id='<%# Eval("Pizza.IDpizza") %>' class="btn btn-primary detail">Details</button>
+                                <asp:Button    ID="ButtonRemove" runat="server" Text="Remove" CssClass="btn btn-danger" CommandArgument='<%# Eval("Pizza.IDpizza") %>' />
+                            </div>
                         </td>
                     </tr>
 
                 </ItemTemplate>
                 <FooterTemplate>
                     </tbody>
-            </table>
+                    </table>
                 </FooterTemplate>
+
             </asp:Repeater>
+
+        </div>
+        <div class="col-md-8 col-md-offset-2 text-right">
+            <asp:Label runat="server" ID="TotalPrice" CssClass="price"></asp:Label>
         </div>
     </div>
+
+
+    <div class="modal fade animated rollIn" id="modalDetail" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModal-label">Détail de la pizza</h4>
+                </div>
+                <div class="modal-body result">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts/CartController.js"></script>
 </asp:Content>
 
