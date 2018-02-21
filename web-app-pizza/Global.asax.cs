@@ -11,12 +11,32 @@ namespace web_app_pizza
     public class Global : System.Web.HttpApplication
     {
         public static List<Pizza> CollectionPizzas { get; set; }
+        public static List<User> Users { get; set; }
+        public static List<Role> Roles { get; set; }
 
         protected void Application_Start(object sender, EventArgs e)
         {
             
 
             PizzaModule p = new PizzaModule();
+          
+            Global.Users = new List<User>()
+            {
+                new User(){
+                    Login = "admin",
+                    Password = "Nico1234!"
+                }
+            };
+
+            var r1 = new Role();
+            r1.RoleName = "Admin";
+            r1.Users.Add(Global.Users.First());
+
+            Global.Roles = new List<Role>()
+            {
+                r1
+            };
+
             Global.CollectionPizzas = new List<Pizza>()
             {
                 new Pizza()

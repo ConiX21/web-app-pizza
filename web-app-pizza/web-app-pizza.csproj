@@ -93,6 +93,7 @@
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="AddPizza.aspx" />
+    <Content Include="admin\Default.aspx" />
     <Content Include="Cart.aspx" />
     <Content Include="content\animate.min.css" />
     <Content Include="content\bootstrap.min.css" />
@@ -105,6 +106,7 @@
     <Content Include="images\Pizza_3.jpg" />
     <Content Include="images\Pizza_4.jpg.png" />
     <Content Include="index.aspx" />
+    <Content Include="Login.aspx" />
     <Content Include="node_modules\animate.css\animate.css" />
     <Content Include="node_modules\animate.css\animate.min.css" />
     <Content Include="node_modules\animate.css\gulpfile.js" />
@@ -975,6 +977,13 @@
     <Compile Include="AddPizza.aspx.designer.cs">
       <DependentUpon>AddPizza.aspx</DependentUpon>
     </Compile>
+    <Compile Include="admin\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_GlobalResources\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1011,11 +1020,23 @@
     <Compile Include="index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Models\IRepository.cs" />
     <Compile Include="Models\Pizza.cs" />
     <Compile Include="Models\PizzaCart.cs" />
     <Compile Include="Models\PizzaCartRepository.cs" />
     <Compile Include="Models\PizzaRepository.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\RoleManager.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserProvider.cs" />
+    <Compile Include="Models\UserRepository.cs" />
     <Compile Include="PizzaModule.cs" />
     <Compile Include="PizzaTemplate.Master.cs">
       <DependentUpon>PizzaTemplate.Master</DependentUpon>
@@ -2174,6 +2195,7 @@
     <Content Include="README.MD" />
     <Content Include="typings\globals\jquery\typings.json" />
     <Content Include="typings\globals\bootstrap\typings.json" />
+    <Content Include="admin\Web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
