@@ -11,9 +11,7 @@ namespace web_app_pizza
     public class Global : System.Web.HttpApplication
     {
         public static List<Pizza> CollectionPizzas { get; set; }
-        public static List<Client> Clients { get; set; }
-        public static List<String> Roles { get; set; }
-        public static List<Clients_Roles> Clients_Roles { get; set; }
+      
 
         public RoleManager RoleManager { get; set; }
         public ClientProvider ClientProvider { get; set; }
@@ -23,19 +21,15 @@ namespace web_app_pizza
             RoleManager = new RoleManager();
             ClientProvider = new ClientProvider();
 
-            Global.Clients = new List<Client>();
-            Global.Clients_Roles = new List<Models.Clients_Roles>();
-            Global.Roles = new List<string>();
-
-            
-
             MembershipCreateStatus status;
             ClientProvider.CreateUserComplet("client", "Nico1234!", null, null, null,true,Guid.NewGuid(), out status);
             ClientProvider.CreateUserComplet("admin", "Nico1234!", null, null, null, true, null, out status);
+
             RoleManager.CreateRole("Admin");
             RoleManager.CreateRole("Client");
+
             RoleManager.AddUserToRoles("client", new string[] { "Client" });
-            RoleManager.AddUserToRoles("admin", new string[] { "Admin" });
+           RoleManager.AddUserToRoles("admin", new string[] { "Admin" });
 
 
             Global.CollectionPizzas = new List<Pizza>()

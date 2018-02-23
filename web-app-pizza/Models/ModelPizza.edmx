@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="pizzaDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="pizzaDBModelStoreContainer">
+    <EntitySet Name="Client" EntityType="pizzaDBModel.Store.Client" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Role" EntityType="pizzaDBModel.Store.Role" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Clients_Roles" EntityType="pizzaDBModel.Store.Clients_Roles" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ClientClients_Roles" Association="pizzaDBModel.Store.ClientClients_Roles">
+      <End Role="Client" EntitySet="Client" />
+      <End Role="Clients_Roles" EntitySet="Clients_Roles" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="IDClient" />
+    </Key>
+    <Property Name="IDClient" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserName" Type="varchar" Nullable="true" MaxLength="35" />
+    <Property Name="Email" Type="varchar" Nullable="true" MaxLength="100" />
+    <Property Name="Password" Type="varchar" Nullable="true" MaxLength="10" />
+    <Property Name="Lastname" Type="varchar" Nullable="true" MaxLength="35" />
+    <Property Name="Firstname" Type="varchar" Nullable="true" MaxLength="35" />
+    <Property Name="Address" Type="varchar" Nullable="true" MaxLength="150" />
+    <Property Name="ZipCode" Type="varchar" Nullable="true" MaxLength="5" />
+    <Property Name="City" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Phone" Type="varchar" Nullable="true" MaxLength="10" />
+    <Property Name="IsOnline" Type="bit" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="IdRole" />
+    </Key>
+    <Property Name="IdRole" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoleName" Type="nvarchar" Nullable="false" MaxLength="35" />
+  </EntityType>
+  <EntityType Name="Clients_Roles">
+    <Key>
+      <PropertyRef Name="IdClient_Roles" />
+    </Key>
+    <Property Name="IdClient_Roles" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ClientIDClient" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoleName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="ClientClients_Roles">
+    <End Role="Client" Type="pizzaDBModel.Store.Client" Multiplicity="1" />
+    <End Role="Clients_Roles" Type="pizzaDBModel.Store.Clients_Roles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="IDClient" />
+      </Principal>
+      <Dependent Role="Clients_Roles">
+        <PropertyRef Name="ClientIDClient" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="pizzaDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="IDClient" />
+          </Key>
+          <Property Name="IDClient" Type="Guid" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Lastname" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="Firstname" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ZipCode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IsOnline" Type="Boolean" />
+          <NavigationProperty Name="Clients_Roles" Relationship="pizzaDBModel.ClientClients_Roles" FromRole="Client" ToRole="Clients_Roles" />
+        </EntityType>
+        <EntityContainer Name="pizzaDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Client" EntityType="Self.Client" />
+          <EntitySet Name="Role" EntityType="pizzaDBModel.Role" />
+          <EntitySet Name="Clients_Roles" EntityType="pizzaDBModel.Clients_Roles" />
+          <AssociationSet Name="ClientClients_Roles" Association="pizzaDBModel.ClientClients_Roles">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Clients_Roles" EntitySet="Clients_Roles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="IdRole" />
+          </Key>
+          <Property Name="IdRole" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="RoleName" Type="String" Nullable="false" FixedLength="false" MaxLength="35" />
+        </EntityType>
+        <EntityType Name="Clients_Roles">
+          <Key>
+            <PropertyRef Name="IdClient_Roles" />
+          </Key>
+          <Property Name="IdClient_Roles" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <NavigationProperty Name="Client" Relationship="pizzaDBModel.ClientClients_Roles" FromRole="Clients_Roles" ToRole="Client" />
+          <Property Name="ClientIDClient" Type="Guid" Nullable="false" />
+          <Property Name="RoleName" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="ClientClients_Roles">
+          <End Type="pizzaDBModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="pizzaDBModel.Clients_Roles" Role="Clients_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="IDClient" />
+            </Principal>
+            <Dependent Role="Clients_Roles">
+              <PropertyRef Name="ClientIDClient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="pizzaDBModelStoreContainer" CdmEntityContainer="pizzaDBEntities">
+    <EntitySetMapping Name="Client">
+      <EntityTypeMapping TypeName="IsTypeOf(pizzaDBModel.Client)">
+        <MappingFragment StoreEntitySet="Client">
+          <ScalarProperty Name="IDClient" ColumnName="IDClient" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Role">
+      <EntityTypeMapping TypeName="IsTypeOf(pizzaDBModel.Role)">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="IdRole" ColumnName="IdRole" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Clients_Roles">
+      <EntityTypeMapping TypeName="IsTypeOf(pizzaDBModel.Clients_Roles)">
+        <MappingFragment StoreEntitySet="Clients_Roles">
+          <ScalarProperty Name="IdClient_Roles" ColumnName="IdClient_Roles" />
+          <ScalarProperty Name="ClientIDClient" ColumnName="ClientIDClient" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

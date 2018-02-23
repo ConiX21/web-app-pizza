@@ -54,6 +54,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -70,6 +76,8 @@
     <Reference Include="Ninject.Web.Common, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.Web.Common.3.0.0.7\lib\net40-full\Ninject.Web.Common.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -107,6 +115,17 @@
     <Content Include="images\Pizza_4.jpg.png" />
     <Content Include="index.aspx" />
     <Content Include="Login.aspx" />
+    <Content Include="Models\ModelPizza.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModelPizza.Context.cs</LastGenOutput>
+      <DependentUpon>ModelPizza.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\ModelPizza.edmx.sql" />
+    <Content Include="Models\ModelPizza.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelPizza.edmx</DependentUpon>
+      <LastGenOutput>ModelPizza.cs</LastGenOutput>
+    </Content>
     <Content Include="node_modules\animate.css\animate.css" />
     <Content Include="node_modules\animate.css\animate.min.css" />
     <Content Include="node_modules\animate.css\gulpfile.js" />
@@ -1029,17 +1048,38 @@
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\IRepository.cs" />
+    <Compile Include="Models\ModelPizza.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelPizza.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelPizza.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelPizza.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelPizza.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelPizza.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderLine.cs" />
     <Compile Include="Models\Pizza.cs" />
     <Compile Include="Models\PizzaCart.cs" />
     <Compile Include="Models\PizzaCartRepository.cs" />
     <Compile Include="Models\PizzaRepository.cs" />
-    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Role.cs">
+      <DependentUpon>ModelPizza.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RoleManager.cs" />
-    <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\Client.cs">
+      <DependentUpon>ModelPizza.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ClientProvider.cs" />
-    <Compile Include="Models\Clients_Roles.cs" />
+    <Compile Include="Models\Clients_Roles.cs">
+      <DependentUpon>ModelPizza.tt</DependentUpon>
+    </Compile>
     <Compile Include="PizzaModule.cs" />
     <Compile Include="PizzaTemplate.Master.cs">
       <DependentUpon>PizzaTemplate.Master</DependentUpon>
@@ -2206,6 +2246,13 @@
     <Content Include="typings\globals\jquery\typings.json" />
     <Content Include="typings\globals\bootstrap\typings.json" />
     <Content Include="admin\Web.config" />
+    <EntityDeploy Include="Models\ModelPizza.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelPizza.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ModelPizza.edmx.diagram">
+      <DependentUpon>ModelPizza.edmx</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2228,6 +2275,7 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Resource.resx">

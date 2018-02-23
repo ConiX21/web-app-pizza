@@ -8,8 +8,14 @@ namespace web_app_pizza.Models
 {
     public class RoleManager : RoleProvider
     {
+        private pizzaDBEntities _Context { get; set; }
+        public RoleManager()
+        {
+            _Context = new pizzaDBEntities();
+        }
+
         public override string ApplicationName { get; set; }
-       
+
 
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
@@ -17,15 +23,21 @@ namespace web_app_pizza.Models
         }
         public void AddUserToRoles(string username, string[] roleNames)
         {
-            var client = Global.Clients.Single(u => u.UserName == username);
+            var client = _Context.Client.First(u => u.UserName == username);
 
             if (client != null)
             {
                 foreach (var role in roleNames)
                 {
-                    Global.Clients_Roles.Add(new Clients_Roles(client, role));
-                }
+                    _Context.Clients_Roles.Add(new Clients_Roles()
+                    {
+                        IdClient_Roles = Guid.NewGuid(),
+                        Client = client,
+                        RoleName = role
+                    });
 
+                }
+                _Context.SaveChanges();
             }
         }
 
@@ -33,7 +45,12 @@ namespace web_app_pizza.Models
         public override void CreateRole(string roleName)
         {
             if (!RoleExists(roleName))
-                Global.Roles.Add(roleName);
+            {
+
+                var r = new Role() { IdRole = Guid.NewGuid(), RoleName = roleName };
+                _Context.Role.Add(r);
+                _Context.SaveChanges();
+            }
         }
 
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
@@ -43,27 +60,26 @@ namespace web_app_pizza.Models
 
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
         {
-            var query = from client in Global.Clients.Cast<Client>()
-                        join client_role in Global.Clients_Roles on client.IDClient equals client_role.Client.IDClient
-                        where client_role.Role == roleName && usernameToMatch == client.UserName
-                        select client.UserName ;
+            var query = from client in _Context.Client
+                        join client_role in _Context.Clients_Roles on client.IDClient equals client_role.Client.IDClient
+                        where client_role.RoleName == roleName && usernameToMatch == client.UserName
+                        select client.UserName;
 
             return query.ToArray();
         }
 
         public override string[] GetAllRoles()
         {
-            return Global.Roles.ToArray();
+            return _Context.Role.Select(r => r.RoleName).ToArray();
         }
 
         public override string[] GetRolesForUser(string username)
         {
 
-            var query = from client_role in Global.Clients_Roles
+            var query = from client_role in _Context.Clients_Roles
                         where client_role.Client.UserName == username
-                        select client_role.Role;
+                        select client_role.RoleName;
 
-          
             return query.ToArray();
         }
 
@@ -74,12 +90,12 @@ namespace web_app_pizza.Models
 
         public override bool IsUserInRole(string username, string roleName)
         {
-            var query = from client_role in Global.Clients_Roles
-                        where client_role.Client.UserName == username && client_role.Role == roleName
+            var query = from client_role in _Context.Clients_Roles
+                        where client_role.Client.UserName == username && client_role.RoleName == roleName
                         select client_role;
 
             return (query.Count() > 0) ? true : false;
-                       
+
         }
 
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
@@ -89,7 +105,17 @@ namespace web_app_pizza.Models
 
         public override bool RoleExists(string roleName)
         {
-            return Global.Roles.Exists(s => s == roleName);
+            bool result;
+            try
+            {
+                result = _Context.Role.First(r => r.RoleName == roleName) != null;
+            }
+            catch (Exception)
+            {
+                result = false;
+            }
+
+            return result;
         }
     }
 }

@@ -9,6 +9,13 @@ namespace web_app_pizza.Models
 {
     public class ClientProvider : MembershipProvider
     {
+
+        private pizzaDBEntities _Context { get; set; }
+        public ClientProvider()
+        {
+            _Context = new pizzaDBEntities();
+        }
+
         public override bool EnablePasswordRetrieval => throw new NotImplementedException();
 
         public override bool EnablePasswordReset => throw new NotImplementedException();
@@ -46,26 +53,30 @@ namespace web_app_pizza.Models
         {
             throw new NotImplementedException();
         }
-        public MembershipUser CreateUserComplet(string username, string password,  string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
+        public MembershipUser CreateUserComplet(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
         {
+            var client = new Client();
+            MembershipUser ms = null; 
 
-            var client = new Client(username, password);
-            var count = Global.Clients.Count;
-            //client.IDClient = ++count ;
-            //client.Email = email;
-            client.IDClient = Guid.NewGuid();
-            //providerUserKey = Guid.NewGuid();
-            //client.ProviderUserKey
-            //client.ChangePasswordQuestionAndAnswer(password, passwordQuestion, passwordAnswer);
-            //client.IsApproved = true;
-            status = MembershipCreateStatus.Success;
-            //key
+            if (GetUser(username, true) == null)
+            {
+                client.UserName = username;
+                client.Password = password;
+                client.Email = email;
+                client.IDClient = Guid.NewGuid();
+                status = MembershipCreateStatus.Success;
 
-            Global.Clients.Add(client);
-            
+                _Context.Client.Add(client);
+                ms = new MembershipUser(typeof(ClientProvider).Name, client.UserName, null, client.Email, null, null, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
+                _Context.SaveChanges();
+            }
+            else
+            {
+                status = MembershipCreateStatus.DuplicateUserName;
+            }
 
-            return new MembershipUser(typeof(ClientProvider).Name, client.UserName, null, client.Email, null, null, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
-            
+            return ms;
+
         }
 
 
@@ -81,10 +92,11 @@ namespace web_app_pizza.Models
 
         public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
         {
-            totalRecords = Global.Clients.Count;
+            totalRecords = _Context.Client.Count();
             var muc = new MembershipUserCollection();
 
-            Action<Client> eachMember = delegate(Client c) {
+            Action<Client> eachMember = delegate (Client c)
+            {
                 var ms = new MembershipUser(null, c.UserName, null, c.Email, null, null, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
                 muc.Add(ms);
             };
@@ -94,7 +106,7 @@ namespace web_app_pizza.Models
                 return c.UserName.StartsWith(usernameToMatch, StringComparison.OrdinalIgnoreCase);
             };
 
-            Global.Clients.Cast<Client>()
+            _Context.Client
                 .Where(compare)
                 .ToList()
                 .ForEach(eachMember);
@@ -106,16 +118,17 @@ namespace web_app_pizza.Models
 
         public override MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords)
         {
-            totalRecords = Global.Clients.Count;
+            totalRecords = _Context.Client.Count();
             var muc = new MembershipUserCollection();
 
 
-            Action<Client> eachMember = delegate (Client c) {
+            Action<Client> eachMember = delegate (Client c)
+            {
                 var ms = new MembershipUser(null, c.UserName, null, c.Email, null, null, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
                 muc.Add(ms);
             };
 
-            Global.Clients.ToList().ForEach(eachMember);
+            _Context.Client.ToList().ForEach(eachMember);
 
             return muc;
         }
@@ -137,16 +150,26 @@ namespace web_app_pizza.Models
 
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
-            var c = Global.Clients.Single(u => u.UserName == username && u.IsOnline == userIsOnline);
-            var ms = new MembershipUser(null, c.UserName, null, c.Email, null, null, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
+            MembershipUser ms = null;
 
-            return ms;
+            try
+            {
+                var c = _Context.Client.First(u => u.UserName == username && u.IsOnline == userIsOnline);
+                ms = new MembershipUser(null, c.UserName, null, c.Email, null, null, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
+
+            }
+            catch (Exception)
+            {
                 
+            }
+            
+            return ms;
+
         }
 
         public override string GetUserNameByEmail(string email)
         {
-            return Global.Clients.Cast<Client>().Single(u => u.Email == email).UserName;
+            return _Context.Client.First(u => u.Email == email).UserName;
         }
 
         public override string ResetPassword(string username, string answer)
@@ -166,7 +189,7 @@ namespace web_app_pizza.Models
 
         public override bool ValidateUser(string username, string password)
         {
-            if (Global.Clients.Cast<Client>().Single(u => u.UserName == username && u.Password == password) != null)
+            if (_Context.Client.First(u => u.UserName == username && u.Password == password) != null)
             {
                 return true;
             }
