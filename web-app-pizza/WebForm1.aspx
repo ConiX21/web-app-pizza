@@ -9,16 +9,6 @@
 </head>
 <body>
     <form id="form1" runat="server">
- 
-
-
-
-
-
-
-
-
-
 
         <asp:ObjectDataSource ID="ObjectDataSourceRepositoryPizza" runat="server" DataObjectTypeName="web_app_pizza.Models.Pizza" InsertMethod="Add" SelectMethod="Read" TypeName="web_app_pizza.Models.PizzaRepository"></asp:ObjectDataSource>
         <asp:FormView ID="FormView1" runat="server" DataSourceID="ObjectDataSourceRepositoryPizza" Width="385px">
