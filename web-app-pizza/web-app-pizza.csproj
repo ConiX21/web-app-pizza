@@ -965,6 +965,7 @@
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\CartController.js" />
     <Content Include="scripts\jquery.min.js" />
+    <Content Include="ValidationOrder.aspx" />
     <Content Include="Web.config" />
     <Content Include="WebForm1.aspx" />
     <Content Include="WebUserControlPizza.ascx" />
@@ -1028,15 +1029,17 @@
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\IRepository.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderLine.cs" />
     <Compile Include="Models\Pizza.cs" />
     <Compile Include="Models\PizzaCart.cs" />
     <Compile Include="Models\PizzaCartRepository.cs" />
     <Compile Include="Models\PizzaRepository.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\RoleManager.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserProvider.cs" />
-    <Compile Include="Models\UserRepository.cs" />
+    <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\ClientProvider.cs" />
+    <Compile Include="Models\Clients_Roles.cs" />
     <Compile Include="PizzaModule.cs" />
     <Compile Include="PizzaTemplate.Master.cs">
       <DependentUpon>PizzaTemplate.Master</DependentUpon>
@@ -1053,6 +1056,13 @@
       <DependentUpon>Pizzas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidationOrder.aspx.cs">
+      <DependentUpon>ValidationOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ValidationOrder.aspx.designer.cs">
+      <DependentUpon>ValidationOrder.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

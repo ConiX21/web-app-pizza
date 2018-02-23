@@ -5,9 +5,7 @@ using System.Web;
 
 namespace web_app_pizza.Models
 {
-    public class User 
+    public class OrderLine
     {
-        public string Login { get; set; }
-        public string Password { get; set; }
     }
 }

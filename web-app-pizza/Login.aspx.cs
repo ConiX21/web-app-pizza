@@ -10,10 +10,10 @@ namespace web_app_pizza
 {
     public partial class Login : System.Web.UI.Page
     {
-        public UserRepository UserRepository { get; set; }
+       
         public Login()
         {
-            UserRepository = new UserRepository();
+           
         }
 
         protected void Page_Load(object sender, EventArgs e)

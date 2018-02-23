@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Security;
 
 namespace web_app_pizza.Models
 {
-    public class UserProvider : MembershipProvider
+    public class ClientProvider : MembershipProvider
     {
         public override bool EnablePasswordRetrieval => throw new NotImplementedException();
 
@@ -37,13 +38,36 @@ namespace web_app_pizza.Models
 
         public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
         {
-            throw new NotImplementedException();
+            //base.ChangePasswordQuestionAndAnswer(username, password, newPasswordQuestion, newPasswordAnswer);
+            return true;
         }
 
         public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
         {
             throw new NotImplementedException();
         }
+        public MembershipUser CreateUserComplet(string username, string password,  string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
+        {
+
+            var client = new Client(username, password);
+            var count = Global.Clients.Count;
+            //client.IDClient = ++count ;
+            //client.Email = email;
+            client.IDClient = Guid.NewGuid();
+            //providerUserKey = Guid.NewGuid();
+            //client.ProviderUserKey
+            //client.ChangePasswordQuestionAndAnswer(password, passwordQuestion, passwordAnswer);
+            //client.IsApproved = true;
+            status = MembershipCreateStatus.Success;
+            //key
+
+            Global.Clients.Add(client);
+            
+
+            return new MembershipUser(typeof(ClientProvider).Name, client.UserName, null, client.Email, null, null, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
+            
+        }
+
 
         public override bool DeleteUser(string username, bool deleteAllRelatedData)
         {
@@ -57,12 +81,43 @@ namespace web_app_pizza.Models
 
         public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
         {
-            throw new NotImplementedException();
+            totalRecords = Global.Clients.Count;
+            var muc = new MembershipUserCollection();
+
+            Action<Client> eachMember = delegate(Client c) {
+                var ms = new MembershipUser(null, c.UserName, null, c.Email, null, null, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
+                muc.Add(ms);
+            };
+
+            Func<Client, bool> compare = (c) =>
+            {
+                return c.UserName.StartsWith(usernameToMatch, StringComparison.OrdinalIgnoreCase);
+            };
+
+            Global.Clients.Cast<Client>()
+                .Where(compare)
+                .ToList()
+                .ForEach(eachMember);
+
+
+            return muc;
+
         }
 
         public override MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords)
         {
-            throw new NotImplementedException();
+            totalRecords = Global.Clients.Count;
+            var muc = new MembershipUserCollection();
+
+
+            Action<Client> eachMember = delegate (Client c) {
+                var ms = new MembershipUser(null, c.UserName, null, c.Email, null, null, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
+                muc.Add(ms);
+            };
+
+            Global.Clients.ToList().ForEach(eachMember);
+
+            return muc;
         }
 
         public override int GetNumberOfUsersOnline()
@@ -82,12 +137,16 @@ namespace web_app_pizza.Models
 
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
-            throw new NotImplementedException();
+            var c = Global.Clients.Single(u => u.UserName == username && u.IsOnline == userIsOnline);
+            var ms = new MembershipUser(null, c.UserName, null, c.Email, null, null, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
+
+            return ms;
+                
         }
 
         public override string GetUserNameByEmail(string email)
         {
-            throw new NotImplementedException();
+            return Global.Clients.Cast<Client>().Single(u => u.Email == email).UserName;
         }
 
         public override string ResetPassword(string username, string answer)
@@ -107,7 +166,7 @@ namespace web_app_pizza.Models
 
         public override bool ValidateUser(string username, string password)
         {
-            if (Global.Users.Find(u => u.Login == username && u.Password == password) != null)
+            if (Global.Clients.Cast<Client>().Single(u => u.UserName == username && u.Password == password) != null)
             {
                 return true;
             }

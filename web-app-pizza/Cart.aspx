@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PizzaTemplate.Master" AutoEventWireup="true" CodeBehind="Cart.aspx.cs" Inherits="web_app_pizza.Cart" %>
+﻿<%@ Page Title="" Trace="true" Language="C#" MasterPageFile="~/PizzaTemplate.Master" AutoEventWireup="true" CodeBehind="Cart.aspx.cs" Inherits="web_app_pizza.Cart" %>
 
 <%@ Import Namespace="web_app_pizza.Models" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolderTitle" runat="server">
@@ -57,8 +57,16 @@
             </asp:Repeater>
 
         </div>
-        <div class="col-md-8 col-md-offset-2 text-right">
-            <asp:Label runat="server" ID="TotalPrice" CssClass="price"></asp:Label>
+        
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-2 text-left">
+                <asp:Button Enabled="false" OnClick="checkout_Click" ID="checkout" runat="server" Text="Commander" CssClass="btn btn-success" />
+            </div>
+            <div class="col-md-8 col-md-offset-2 text-right">
+                <asp:Label runat="server" ID="TotalPrice" CssClass="price"></asp:Label>
+            </div>
         </div>
     </div>
 
