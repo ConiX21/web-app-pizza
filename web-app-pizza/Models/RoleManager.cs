@@ -17,7 +17,7 @@ namespace web_app_pizza.Models
         }
         public void AddUserToRoles(string username, string[] roleNames)
         {
-            var client = Global.Clients.Cast<Client>().Single(u => u.UserName == username);
+            var client = Global.Clients.Single(u => u.UserName == username);
 
             if (client != null)
             {

@@ -31,11 +31,11 @@ namespace web_app_pizza
 
             MembershipCreateStatus status;
             ClientProvider.CreateUserComplet("client", "Nico1234!", null, null, null,true,Guid.NewGuid(), out status);
-            //ClientProvider.CreateUserComplet("admin", "Nico1234!", null, null, null, true, null, out status);
+            ClientProvider.CreateUserComplet("admin", "Nico1234!", null, null, null, true, null, out status);
             RoleManager.CreateRole("Admin");
             RoleManager.CreateRole("Client");
-            //RoleManager.AddUserToRoles("client", new string[] { "Client" });
-            //RoleManager.AddUserToRoles("admin", new string[] { "admin" });
+            RoleManager.AddUserToRoles("client", new string[] { "Client" });
+            RoleManager.AddUserToRoles("admin", new string[] { "Admin" });
 
 
             Global.CollectionPizzas = new List<Pizza>()

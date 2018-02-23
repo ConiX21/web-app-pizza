@@ -13,7 +13,7 @@ namespace web_app_pizza
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var c = Global.Clients;
+            
         }
 
         protected override void InitializeCulture()

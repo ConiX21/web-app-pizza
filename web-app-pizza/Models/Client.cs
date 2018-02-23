@@ -35,7 +35,7 @@ namespace web_app_pizza.Models
 
         public Client(string username, string password) : this()
         {
-            _username = username;
+            UserName = username;
             Password = password;
         }
     }
